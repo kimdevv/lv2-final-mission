@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -37,6 +39,14 @@ public class ReservationController {
     @GetMapping
     public List<ReservationGetResponse> findAll() {
         List<Reservation> reservations = reservationService.findAllReservations();
+        return reservations.stream()
+                .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
+                .toList();
+    }
+
+    @GetMapping
+    public List<ReservationGetResponse> findReservationsOfPeriod(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+        List<Reservation> reservations = reservationService.findReservationOfPeriod(startDate, endDate);
         return reservations.stream()
                 .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
                 .toList();

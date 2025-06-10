@@ -53,6 +53,10 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
+    public List<Reservation> findReservationOfPeriod(LocalDate startDate, LocalDate endDate) {
+        return reservationRepository.findReservationOfPeriod(startDate, endDate);
+    }
+
     public List<Reservation> findMemberReservations(String name) {
         return reservationRepository.findByName(name);
     }
