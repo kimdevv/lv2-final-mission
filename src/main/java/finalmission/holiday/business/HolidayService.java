@@ -5,6 +5,8 @@ import finalmission.holiday.model.Holiday;
 import finalmission.holiday.presentation.dto.request.HolidayCreateRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class HolidayService {
 
@@ -22,5 +24,9 @@ public class HolidayService {
 
     public void createNationalHolidaysOfThisYear() {
         nationalHolidayService.createNationalHolidaysOfThisYear();
+    }
+
+    public boolean existsByDate(LocalDate date) {
+        return holidayRepository.existsByDate(date);
     }
 }
