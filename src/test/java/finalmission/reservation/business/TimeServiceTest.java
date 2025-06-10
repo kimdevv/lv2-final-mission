@@ -1,32 +1,25 @@
 package finalmission.reservation.business;
 
-import finalmission.reservation.database.TimeRepository;
 import finalmission.reservation.model.Time;
 import finalmission.reservation.presentation.dto.request.TimeCreateRequest;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-public class TimeServiceTest {
-
-    private TimeService timeService;
+@SpringBootTest
+class TimeServiceTest {
 
     @Autowired
-    private TimeRepository timeRepository;
-
-    @BeforeEach
-    void setUp() {
-        timeService = new TimeService(timeRepository);
-    }
+    private TimeService timeService;
 
     @Test
+    @Transactional
     void 시간을_생성하여_저장한다() {
         // Given
         LocalTime startAt = LocalTime.now().plusMinutes(1);
@@ -43,6 +36,7 @@ public class TimeServiceTest {
     }
 
     @Test
+    @Transactional
     void 모든_시간을_조회한다() {
         // Given
         LocalTime startAt1 = LocalTime.now().plusMinutes(1);

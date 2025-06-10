@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-
 class HolidayCreateRequestTest {
 
     @Test

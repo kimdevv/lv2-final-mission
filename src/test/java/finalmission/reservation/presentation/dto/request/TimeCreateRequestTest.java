@@ -3,7 +3,7 @@ package finalmission.reservation.presentation.dto.request;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class TimeCreateRequestTest {
+class TimeCreateRequestTest {
 
     @Test
     void startAt은_null이_될_수_없다() {
