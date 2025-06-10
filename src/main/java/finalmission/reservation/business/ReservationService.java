@@ -6,6 +6,7 @@ import finalmission.reservation.database.TimeRepository;
 import finalmission.reservation.model.Reservation;
 import finalmission.reservation.model.Time;
 import finalmission.reservation.presentation.dto.request.ReservationCreateRequest;
+import finalmission.reservation.presentation.dto.request.ReservationDeleteRequest;
 import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +57,22 @@ public class ReservationService {
     public Reservation changeTreatmentType(ReservationUpdateTreatmentTypeRequest reservationUpdateTreatmentTypeRequest) {
         Reservation reservation = reservationRepository.findById(reservationUpdateTreatmentTypeRequest.id())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약 id입니다."));
+        validateSameMember(reservation.getName(), reservationUpdateTreatmentTypeRequest.name());
         reservationRepository.delete(reservation);
         return reservationRepository.save(new Reservation(reservationUpdateTreatmentTypeRequest.treatmentType(), reservation.getDate(), reservation.getTime(), reservation.getName()));
+    }
+
+    private void validateSameMember(String savedName, String requestedName) {
+        if (savedName.equalsIgnoreCase(requestedName)) {
+            return;
+        }
+        throw new IllegalArgumentException("예약을 등록한 유저만 수정할 수 있습니다.");
+    }
+
+    public void deleteById(ReservationDeleteRequest reservationDeleteRequest) {
+        Reservation reservation = reservationRepository.findById(reservationDeleteRequest.id())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약 id입니다."));
+        validateSameMember(reservation.getName(), reservationDeleteRequest.name());
+        reservationRepository.delete(reservation);
     }
 }
