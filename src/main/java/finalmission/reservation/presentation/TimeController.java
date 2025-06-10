@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RequestMapping("/time")
 @RestController
+@RequestMapping("/reservations/times")
 public class TimeController {
 
     private final TimeService timeService;
