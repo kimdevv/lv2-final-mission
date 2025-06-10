@@ -3,8 +3,10 @@ package finalmission.reservation.presentation;
 import finalmission.reservation.business.ReservationService;
 import finalmission.reservation.model.Reservation;
 import finalmission.reservation.presentation.dto.request.ReservationCreateRequest;
+import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeRequest;
 import finalmission.reservation.presentation.dto.response.ReservationGetResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,4 +37,10 @@ public class ReservationController {
                 .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
                 .toList();
     }
+
+   @PatchMapping
+    public ReservationGetResponse update(@RequestBody ReservationUpdateTreatmentTypeRequest requestBody) {
+       Reservation reservation = reservationService.changeTreatmentType(requestBody);
+       return new ReservationGetResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt());
+   }
 }

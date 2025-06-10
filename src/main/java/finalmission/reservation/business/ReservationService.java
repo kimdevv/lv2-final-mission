@@ -6,7 +6,9 @@ import finalmission.reservation.database.TimeRepository;
 import finalmission.reservation.model.Reservation;
 import finalmission.reservation.model.Time;
 import finalmission.reservation.presentation.dto.request.ReservationCreateRequest;
+import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,5 +50,13 @@ public class ReservationService {
 
     public List<Reservation> findAllReservations() {
         return reservationRepository.findAll();
+    }
+
+    @Transactional
+    public Reservation changeTreatmentType(ReservationUpdateTreatmentTypeRequest reservationUpdateTreatmentTypeRequest) {
+        Reservation reservation = reservationRepository.findById(reservationUpdateTreatmentTypeRequest.id())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약 id입니다."));
+        reservationRepository.delete(reservation);
+        return reservationRepository.save(new Reservation(reservationUpdateTreatmentTypeRequest.treatmentType(), reservation.getDate(), reservation.getTime(), reservation.getName()));
     }
 }
