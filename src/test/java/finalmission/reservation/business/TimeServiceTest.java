@@ -1,9 +1,10 @@
 package finalmission.reservation.business;
 
+import finalmission.reservation.database.TimeRepository;
 import finalmission.reservation.model.Time;
 import finalmission.reservation.presentation.dto.request.TimeCreateRequest;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,11 +16,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 public class TimeServiceTest {
 
-    @Autowired
     private TimeService timeService;
 
+    @Autowired
+    private TimeRepository timeRepository;
+
+    @BeforeEach
+    void setUp() {
+        timeService = new TimeService(timeRepository);
+    }
+
     @Test
-    void ½Ã°£À»_»ı¼ºÇÏ¿©_ÀúÀåÇÑ´Ù() {
+    void ì‹œê°„ì„_ìƒì„±í•˜ì—¬_ì €ì¥í•œë‹¤() {
         // Given
         LocalTime startAt = LocalTime.now().plusMinutes(1);
         TimeCreateRequest timeCreateRequest = new TimeCreateRequest(startAt);
@@ -32,5 +40,20 @@ public class TimeServiceTest {
             softAssertions.assertThat(newTime.getId()).isNotNull();
             softAssertions.assertThat(newTime.getStartAt()).isEqualTo(startAt);
         });
+    }
+
+    @Test
+    void ëª¨ë“ _ì‹œê°„ì„_ì¡°íšŒí•œë‹¤() {
+        // Given
+        LocalTime startAt1 = LocalTime.now().plusMinutes(1);
+        LocalTime startAt2 = LocalTime.now().plusMinutes(2);
+        TimeCreateRequest timeCreateRequest1 = new TimeCreateRequest(startAt1);
+        TimeCreateRequest timeCreateRequest2 = new TimeCreateRequest(startAt2);
+        Time newTime1 = timeService.createTime(timeCreateRequest1);
+        Time newTime2 = timeService.createTime(timeCreateRequest2);
+
+        // When & Then
+        assertThat(timeService.findAllTimes())
+                .containsExactlyInAnyOrder(newTime1, newTime2);
     }
 }
