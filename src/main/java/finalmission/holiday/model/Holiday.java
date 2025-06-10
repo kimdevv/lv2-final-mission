@@ -20,4 +20,25 @@ public class Holiday {
 
     @Column(nullable = false)
     private String name;
+
+    protected Holiday() {
+    }
+
+    public Holiday(LocalDate date, String name) {
+        id = null;
+        this.date = date;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
