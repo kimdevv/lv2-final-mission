@@ -53,6 +53,15 @@ public class ReservationService {
         return reservationRepository.findAll();
     }
 
+    public List<Reservation> findMemberReservations(String name) {
+        return reservationRepository.findByName(name);
+    }
+
+    public Reservation findDetailedReservationOfMember(Long id, String name) {
+        return reservationRepository.findByIdAndName(id, name)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약 id이거나 멤버입니다."));
+    }
+
     @Transactional
     public Reservation changeTreatmentType(ReservationUpdateTreatmentTypeRequest reservationUpdateTreatmentTypeRequest) {
         Reservation reservation = reservationRepository.findById(reservationUpdateTreatmentTypeRequest.id())

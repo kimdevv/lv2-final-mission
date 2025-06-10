@@ -5,6 +5,7 @@ import finalmission.reservation.model.Reservation;
 import finalmission.reservation.presentation.dto.request.ReservationCreateRequest;
 import finalmission.reservation.presentation.dto.request.ReservationDeleteRequest;
 import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeRequest;
+import finalmission.reservation.presentation.dto.response.ReservationGetDetailResponse;
 import finalmission.reservation.presentation.dto.response.ReservationGetResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,24 +29,38 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ReservationGetResponse create(@RequestBody ReservationCreateRequest requestBody) {
+    public ReservationGetDetailResponse create(@RequestBody ReservationCreateRequest requestBody) {
         Reservation reservation = reservationService.createReservation(requestBody);
-        return new ReservationGetResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt());
+        return new ReservationGetDetailResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt());
     }
 
     @GetMapping
     public List<ReservationGetResponse> findAll() {
         List<Reservation> reservations = reservationService.findAllReservations();
         return reservations.stream()
-                .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
+                .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
                 .toList();
     }
 
-   @PatchMapping
+    @GetMapping("/{name}")
+    public List<ReservationGetResponse> findMemberReservations(@PathVariable String name) {
+        List<Reservation> reservations = reservationService.findMemberReservations(name);
+        return reservations.stream()
+                .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
+                .toList();
+    }
+
+    @GetMapping("/{name}/{id}")
+    public ReservationGetDetailResponse findMyReservationDetail(@PathVariable String name, @PathVariable Long id) {
+        Reservation reservation = reservationService.findDetailedReservationOfMember(id, name);
+        return new ReservationGetDetailResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt());
+    }
+
+    @PatchMapping
     public ReservationGetResponse update(@RequestBody ReservationUpdateTreatmentTypeRequest requestBody) {
-       Reservation reservation = reservationService.changeTreatmentType(requestBody);
-       return new ReservationGetResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt());
-   }
+        Reservation reservation = reservationService.changeTreatmentType(requestBody);
+        return new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt());
+    }
 
    @DeleteMapping
     public void delete(@RequestBody ReservationDeleteRequest requestBody) {
