@@ -1,6 +1,8 @@
 package finalmission.holiday.business;
 
-import finalmission.holiday.business.dto.response.HolidayGetResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import finalmission.holiday.database.HolidayRepository;
 import finalmission.holiday.model.Holiday;
 import org.springframework.stereotype.Service;
@@ -24,10 +26,31 @@ public class NationalHolidayService {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         int thisYear = Year.now().getValue();
         for (int month=1; month<=12; month++) {
-            HolidayGetResponse holidayResponses = nationalHolidayRestClient.getHolidays(thisYear, month);
-            for (HolidayGetResponse.Response.Body.Items.HolidayInfo holiday : holidayResponses.getHolidayInfo()) {
-                holidayRepository.save(new Holiday(LocalDate.parse(holiday.getLocdate(), dateTimeFormatter), holiday.getDateName()));
+            String holidayResponses = nationalHolidayRestClient.getHolidays(thisYear, month);
+            saveHolidaysToDB(holidayResponses, dateTimeFormatter);
+        }
+    }
+
+    private void saveHolidaysToDB(String holidayResponses, DateTimeFormatter dateTimeFormatter) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode root = objectMapper.readTree(holidayResponses);
+            JsonNode holidays = root
+                    .path("response")
+                    .path("body")
+                    .path("items")
+                    .path("item");
+            System.out.println(holidays.asText());
+            if (holidays.isArray()) {
+                for (JsonNode holiday : holidays) {
+                    String name = holiday.path("dateName").asText();
+                    System.out.println("name:   " + name);
+                    LocalDate date = LocalDate.parse(holiday.path("locdate").asText(), dateTimeFormatter);
+                    holidayRepository.save(new Holiday(date, name));
+                }
             }
+        } catch (JsonProcessingException exception) {
+            throw new IllegalArgumentException("응답 파싱 도중 예외가 발생하였습니다.");
         }
     }
 }
