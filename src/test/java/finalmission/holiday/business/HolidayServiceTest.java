@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 @SpringBootTest
+@Transactional
 class HolidayServiceTest {
 
     @Autowired
     private HolidayService holidayService;
 
     @Test
-    @Transactional
     void 휴일을_생성하여_저장한다() {
         // Given
         LocalDate date = LocalDate.now().plusDays(1);

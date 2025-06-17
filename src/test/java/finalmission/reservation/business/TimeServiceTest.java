@@ -13,13 +13,13 @@ import java.time.LocalTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Transactional
 class TimeServiceTest {
 
     @Autowired
     private TimeService timeService;
 
     @Test
-    @Transactional
     void 시간을_생성하여_저장한다() {
         // Given
         LocalTime startAt = LocalTime.now().plusMinutes(1);
@@ -36,7 +36,6 @@ class TimeServiceTest {
     }
 
     @Test
-    @Transactional
     void 모든_시간을_조회한다() {
         // Given
         LocalTime startAt1 = LocalTime.now().plusMinutes(1);

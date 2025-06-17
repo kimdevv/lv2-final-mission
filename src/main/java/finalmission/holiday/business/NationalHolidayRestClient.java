@@ -1,13 +1,9 @@
 package finalmission.holiday.business;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import finalmission.holiday.business.dto.response.HolidayGetResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
 
 @Component
@@ -29,10 +25,10 @@ public class NationalHolidayRestClient {
                 .build();
     }
 
-    public HolidayGetResponse getHolidays(int year, int month) {
+    public String getHolidays(int year, int month) {
         return restClient.get()
                 .uri(String.format("/getHoliDeInfo?solYear=%d&solMonth=%s", year, String.format("%02d", month)))
                 .retrieve()
-                .body(HolidayGetResponse.class);
+                .body(String.class);
     }
 }

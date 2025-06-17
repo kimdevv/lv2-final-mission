@@ -44,7 +44,7 @@ public class ReservationController {
                 .toList();
     }
 
-    @GetMapping
+    @GetMapping("/period")
     public List<ReservationGetResponse> findReservationsOfPeriod(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         List<Reservation> reservations = reservationService.findReservationOfPeriod(startDate, endDate);
         return reservations.stream()

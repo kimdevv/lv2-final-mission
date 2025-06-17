@@ -62,8 +62,10 @@ public class ReservationService {
     }
 
     public Reservation findDetailedReservationOfMember(Long id, String name) {
-        return reservationRepository.findByIdAndName(id, name)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약 id이거나 멤버입니다."));
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 예약 id입니다."));
+        validateSameMember(reservation.getName(), name);
+        return reservation;
     }
 
     @Transactional
@@ -79,7 +81,7 @@ public class ReservationService {
         if (savedName.equalsIgnoreCase(requestedName)) {
             return;
         }
-        throw new IllegalArgumentException("예약을 등록한 유저만 수정할 수 있습니다.");
+        throw new IllegalArgumentException("해당 멤버의 예약이 아닙니다.");
     }
 
     public void deleteById(ReservationDeleteRequest reservationDeleteRequest) {
