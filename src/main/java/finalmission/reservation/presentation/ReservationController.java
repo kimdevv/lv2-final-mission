@@ -1,12 +1,16 @@
 package finalmission.reservation.presentation;
 
+import finalmission.general.auth.model.LoginInfo;
 import finalmission.reservation.business.ReservationService;
+import finalmission.reservation.business.dto.request.ReservationCreateRequest;
+import finalmission.reservation.business.dto.request.ReservationDeleteRequest;
+import finalmission.reservation.business.dto.request.ReservationDetailedGetRequest;
+import finalmission.reservation.business.dto.request.ReservationUpdateTreatmentTypeRequest;
 import finalmission.reservation.model.Reservation;
-import finalmission.reservation.presentation.dto.request.ReservationCreateRequest;
-import finalmission.reservation.presentation.dto.request.ReservationDeleteRequest;
-import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeRequest;
-import finalmission.reservation.presentation.dto.response.ReservationGetDetailResponse;
-import finalmission.reservation.presentation.dto.response.ReservationGetResponse;
+import finalmission.reservation.presentation.dto.request.ReservationCreateWebRequest;
+import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeWebRequest;
+import finalmission.reservation.presentation.dto.response.ReservationGetDetailWebResponse;
+import finalmission.reservation.presentation.dto.response.ReservationGetWebResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,50 +37,50 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationGetDetailResponse> create(@RequestBody ReservationCreateRequest requestBody) {
-        Reservation reservation = reservationService.createReservation(requestBody);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ReservationGetDetailResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt()));
+    public ResponseEntity<ReservationGetDetailWebResponse> create(@RequestBody ReservationCreateWebRequest requestBody, LoginInfo loginInfo) {
+        Reservation reservation = reservationService.createReservation(new ReservationCreateRequest(requestBody.treatmentType(), requestBody.date(), requestBody.timeId(), loginInfo.username()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ReservationGetDetailWebResponse(reservation.getId(), reservation.getMember().getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt()));
     }
 
     @GetMapping
-    public List<ReservationGetResponse> findAll() {
+    public List<ReservationGetWebResponse> findAll() {
         List<Reservation> reservations = reservationService.findAllReservations();
         return reservations.stream()
-                .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
+                .map(reservation -> new ReservationGetWebResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
                 .toList();
     }
 
     @GetMapping("/period")
-    public List<ReservationGetResponse> findReservationsOfPeriod(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+    public List<ReservationGetWebResponse> findReservationsOfPeriod(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
         List<Reservation> reservations = reservationService.findReservationOfPeriod(startDate, endDate);
         return reservations.stream()
-                .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
+                .map(reservation -> new ReservationGetWebResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
                 .toList();
     }
 
     @GetMapping("/{name}")
-    public List<ReservationGetResponse> findMemberReservations(@PathVariable String name) {
+    public List<ReservationGetWebResponse> findMemberReservations(@PathVariable String name) {
         List<Reservation> reservations = reservationService.findMemberReservations(name);
         return reservations.stream()
-                .map(reservation -> new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
+                .map(reservation -> new ReservationGetWebResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt()))
                 .toList();
     }
 
-    @GetMapping("/{name}/{id}")
-    public ReservationGetDetailResponse findMyReservationDetail(@PathVariable String name, @PathVariable Long id) {
-        Reservation reservation = reservationService.findDetailedReservationOfMember(id, name);
-        return new ReservationGetDetailResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt());
+    @GetMapping("/{id}")
+    public ReservationGetDetailWebResponse findMyReservationDetail(@PathVariable Long id, LoginInfo loginInfo) {
+        Reservation reservation = reservationService.findDetailedReservationOfMember(new ReservationDetailedGetRequest(id, loginInfo.username()));
+        return new ReservationGetDetailWebResponse(reservation.getId(), reservation.getMember().getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt());
     }
 
-    @PatchMapping
-    public ReservationGetResponse update(@RequestBody ReservationUpdateTreatmentTypeRequest requestBody) {
-        Reservation reservation = reservationService.changeTreatmentType(requestBody);
-        return new ReservationGetResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt());
+    @PatchMapping("/{id}")
+    public ReservationGetWebResponse update(@PathVariable Long id, @RequestBody ReservationUpdateTreatmentTypeWebRequest requestBody, LoginInfo loginInfo) {
+        Reservation reservation = reservationService.changeTreatmentType(new ReservationUpdateTreatmentTypeRequest(id, requestBody.treatmentType(), loginInfo.username()));
+        return new ReservationGetWebResponse(reservation.getId(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt());
     }
 
-   @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody ReservationDeleteRequest requestBody) {
-       reservationService.deleteById(requestBody);
+   @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id, LoginInfo loginInfo) {
+       reservationService.deleteById(new ReservationDeleteRequest(id, loginInfo.username()));
        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
    }
 }

@@ -1,4 +1,4 @@
-package finalmission.reservation.presentation.dto.request;
+package finalmission.reservation.business.dto.request;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,18 +11,18 @@ class ReservationDeleteRequestTest {
         // Given
         // When
         // Then
-        assertThatThrownBy(() -> new ReservationDeleteRequest(null, "프리"))
+        assertThatThrownBy(() -> new ReservationDeleteRequest(null, "username"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("id는 null이 될 수 없습니다.");
     }
 
     @Test
-    void name은_null이_될_수_없다() {
+    void username은_null이_될_수_없다() {
         // Given
         // When
         // Then
         assertThatThrownBy(() -> new ReservationDeleteRequest(1L, null))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("예약자는 null이 될 수 없습니다.");
+                .hasMessage("예약자 아이디는 null이 될 수 없습니다.");
     }
 }

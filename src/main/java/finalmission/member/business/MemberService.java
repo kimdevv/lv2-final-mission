@@ -3,8 +3,8 @@ package finalmission.member.business;
 import finalmission.general.auth.util.JwtProvider;
 import finalmission.member.database.MemberRepository;
 import finalmission.member.model.Member;
-import finalmission.member.presentation.dto.request.MemberCreateRequest;
-import finalmission.member.presentation.dto.request.MemberLoginRequest;
+import finalmission.member.presentation.dto.request.MemberCreateWebRequest;
+import finalmission.member.presentation.dto.request.MemberLoginWebRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,10 +18,10 @@ public class MemberService {
         this.jwtProvider = jwtProvider;
     }
 
-    public Member createUser(MemberCreateRequest memberCreateRequest) {
-        String username = memberCreateRequest.username();
+    public Member createUser(MemberCreateWebRequest memberCreateWebRequest) {
+        String username = memberCreateWebRequest.username();
         validateDuplicatedUsername(username);
-        return memberRepository.save(new Member(username, memberCreateRequest.password(), memberCreateRequest.name()));
+        return memberRepository.save(new Member(username, memberCreateWebRequest.password(), memberCreateWebRequest.name()));
     }
 
     private void validateDuplicatedUsername(String username) {
@@ -30,8 +30,8 @@ public class MemberService {
         }
     }
 
-    public String login(MemberLoginRequest memberLoginRequest) {
-        Member member = memberRepository.findByUsernameAndPassword(memberLoginRequest.username(), memberLoginRequest.password())
+    public String login(MemberLoginWebRequest memberLoginWebRequest) {
+        Member member = memberRepository.findByUsernameAndPassword(memberLoginWebRequest.username(), memberLoginWebRequest.password())
                 .orElseThrow(() -> new IllegalArgumentException("아이디 혹은 비밀번호를 잘못 입력하셨습니다."));
         return jwtProvider.generateToken(member.getName());
     }

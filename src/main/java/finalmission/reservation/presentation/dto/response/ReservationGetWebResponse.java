@@ -5,5 +5,5 @@ import finalmission.medical.model.TreatmentType;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public record ReservationGetResponse(Long id, TreatmentType treatmentType, LocalDate date, LocalTime time) {
+public record ReservationGetWebResponse(Long id, TreatmentType treatmentType, LocalDate date, LocalTime time) {
 }

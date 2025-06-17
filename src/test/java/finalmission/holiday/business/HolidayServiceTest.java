@@ -1,7 +1,7 @@
 package finalmission.holiday.business;
 
 import finalmission.holiday.model.Holiday;
-import finalmission.holiday.presentation.dto.request.HolidayCreateRequest;
+import finalmission.holiday.presentation.dto.request.HolidayCreateWebRequest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ class HolidayServiceTest {
         // Given
         LocalDate date = LocalDate.now().plusDays(1);
         String name = "테스트 휴일";
-        HolidayCreateRequest holidayCreateRequest = new HolidayCreateRequest(date, name);
+        HolidayCreateWebRequest holidayCreateWebRequest = new HolidayCreateWebRequest(date, name);
 
         // When
-        Holiday newHoliday = holidayService.create(holidayCreateRequest);
+        Holiday newHoliday = holidayService.create(holidayCreateWebRequest);
 
         // Then
         SoftAssertions.assertSoftly(softAssertions -> {

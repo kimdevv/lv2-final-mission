@@ -4,9 +4,9 @@ import finalmission.medical.model.TreatmentType;
 
 import java.time.LocalDate;
 
-public record ReservationCreateRequest(TreatmentType treatmentType, LocalDate date, Long timeId, String name) {
+public record ReservationCreateWebRequest(TreatmentType treatmentType, LocalDate date, Long timeId) {
 
-    public ReservationCreateRequest {
+    public ReservationCreateWebRequest {
         if (treatmentType == null) {
             throw new IllegalArgumentException("진료 종류는 null이 될 수 없습니다.");
         }
@@ -15,9 +15,6 @@ public record ReservationCreateRequest(TreatmentType treatmentType, LocalDate da
         }
         if (timeId == null) {
             throw new IllegalArgumentException("예약 시간은 null이 될 수 없습니다.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("예약자는 null이 될 수 없습니다.");
         }
     }
 }

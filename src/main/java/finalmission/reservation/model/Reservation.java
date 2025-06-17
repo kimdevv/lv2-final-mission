@@ -1,6 +1,7 @@
 package finalmission.reservation.model;
 
 import finalmission.medical.model.TreatmentType;
+import finalmission.member.model.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,20 +35,21 @@ public class Reservation {
     @JoinColumn(nullable = false)
     private Time time;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    private Member member;
 
     @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
 
     protected Reservation() {}
 
-    public Reservation(TreatmentType treatmentType, LocalDate date, Time time, String name) {
+    public Reservation(TreatmentType treatmentType, LocalDate date, Time time, Member member) {
         this.id = null;
         this.treatmentType = treatmentType;
         this.date = date;
         this.time = time;
-        this.name = name;
+        this.member = member;
     }
 
     public Long getId() {
@@ -66,8 +68,8 @@ public class Reservation {
         return time;
     }
 
-    public String getName() {
-        return name;
+    public Member getMember() {
+        return member;
     }
 
     public LocalDateTime getCreatedAt() {

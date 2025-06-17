@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class MemberLoginRequestTest {
+class MemberCreateWebRequestTest {
 
     @Test
     void 아이디는_null이_될_수_없다() {
         // Given
         // When
         // Then
-        assertThatThrownBy(() -> new MemberLoginRequest(null, "password"))
+        assertThatThrownBy(() -> new MemberCreateWebRequest(null, "password", "name"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("아이디는 빈 값이 될 수 없습니다.");
     }
@@ -21,7 +21,7 @@ class MemberLoginRequestTest {
         // Given
         // When
         // Then
-        assertThatThrownBy(() -> new MemberLoginRequest("   ", "password"))
+        assertThatThrownBy(() -> new MemberCreateWebRequest("   ", "password", "name"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("아이디는 빈 값이 될 수 없습니다.");
     }
@@ -31,7 +31,7 @@ class MemberLoginRequestTest {
         // Given
         // When
         // Then
-        assertThatThrownBy(() -> new MemberLoginRequest("username", null))
+        assertThatThrownBy(() -> new MemberCreateWebRequest("username", null, "name"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("비밀번호는 빈 값이 될 수 없습니다.");
     }
@@ -41,9 +41,28 @@ class MemberLoginRequestTest {
         // Given
         // When
         // Then
-        assertThatThrownBy(() -> new MemberLoginRequest("username", "   "))
+        assertThatThrownBy(() -> new MemberCreateWebRequest("username", "   ", "name"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("비밀번호는 빈 값이 될 수 없습니다.");
     }
 
+    @Test
+    void 이름은_null이_될_수_없다() {
+        // Given
+        // When
+        // Then
+        assertThatThrownBy(() -> new MemberCreateWebRequest("username", "password", null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이름은 빈 값이 될 수 없습니다.");
+    }
+
+    @Test
+    void 이름은_빈_값이_될_수_없다() {
+        // Given
+        // When
+        // Then
+        assertThatThrownBy(() -> new MemberCreateWebRequest("username", "password", "   "))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이름은 빈 값이 될 수 없습니다.");
+    }
 }

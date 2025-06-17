@@ -2,7 +2,7 @@ package finalmission.reservation.presentation;
 
 import finalmission.reservation.business.TimeService;
 import finalmission.reservation.model.Time;
-import finalmission.reservation.presentation.dto.request.TimeCreateRequest;
+import finalmission.reservation.presentation.dto.request.TimeCreateWebRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +24,7 @@ public class TimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Time> create(@RequestBody TimeCreateRequest requestBody) {
+    public ResponseEntity<Time> create(@RequestBody TimeCreateWebRequest requestBody) {
         Time time = timeService.createTime(requestBody);
         return ResponseEntity.status(HttpStatus.CREATED).body(time);
     }

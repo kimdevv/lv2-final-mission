@@ -2,7 +2,7 @@ package finalmission.reservation.business;
 
 import finalmission.reservation.database.TimeRepository;
 import finalmission.reservation.model.Time;
-import finalmission.reservation.presentation.dto.request.TimeCreateRequest;
+import finalmission.reservation.presentation.dto.request.TimeCreateWebRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +16,8 @@ public class TimeService {
         this.timeRepository = timeRepository;
     }
 
-    public Time createTime(TimeCreateRequest timeCreateRequest) {
-        return timeRepository.save(new Time(timeCreateRequest.startAt()));
+    public Time createTime(TimeCreateWebRequest timeCreateWebRequest) {
+        return timeRepository.save(new Time(timeCreateWebRequest.startAt()));
     }
 
     public List<Time> findAllTimes() {

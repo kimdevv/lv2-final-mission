@@ -3,9 +3,9 @@ package finalmission.member.presentation;
 import finalmission.general.auth.util.CookieManager;
 import finalmission.member.business.MemberService;
 import finalmission.member.model.Member;
-import finalmission.member.presentation.dto.request.MemberCreateRequest;
-import finalmission.member.presentation.dto.request.MemberLoginRequest;
-import finalmission.member.presentation.dto.response.MemberGetResponse;
+import finalmission.member.presentation.dto.request.MemberCreateWebRequest;
+import finalmission.member.presentation.dto.request.MemberLoginWebRequest;
+import finalmission.member.presentation.dto.response.MemberGetWebResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,13 +29,13 @@ public class MemberController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<MemberGetResponse> signUp(@RequestBody MemberCreateRequest requestBody) {
+    public ResponseEntity<MemberGetWebResponse> signUp(@RequestBody MemberCreateWebRequest requestBody) {
         Member member = memberService.createUser(requestBody);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new MemberGetResponse(member.getId(), member.getUsername(), member.getName()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new MemberGetWebResponse(member.getId(), member.getUsername(), member.getName()));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody MemberLoginRequest requestBody, HttpServletResponse response) {
+    public ResponseEntity<Void> login(@RequestBody MemberLoginWebRequest requestBody, HttpServletResponse response) {
         String accessToken = memberService.login(requestBody);
         ResponseCookie cookie = cookieManager.generateJwtCookie(accessToken);
         return ResponseEntity.ok()

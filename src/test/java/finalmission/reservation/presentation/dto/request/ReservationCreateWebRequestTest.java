@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-class ReservationCreateRequestTest {
+class ReservationCreateWebRequestTest {
 
     @Test
     void treatmentType은_null이_될_수_없다 () {
@@ -16,7 +16,7 @@ class ReservationCreateRequestTest {
         String name = "프리";
 
         // When & Then
-        Assertions.assertThatThrownBy(() -> new ReservationCreateRequest(null, date, timeId, name))
+        Assertions.assertThatThrownBy(() -> new ReservationCreateWebRequest(null, date, timeId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("진료 종류는 null이 될 수 없습니다.");
     }
@@ -29,7 +29,7 @@ class ReservationCreateRequestTest {
         String name = "프리";
 
         // When & Then
-        Assertions.assertThatThrownBy(() -> new ReservationCreateRequest(treatmentType, null, timeId, name))
+        Assertions.assertThatThrownBy(() -> new ReservationCreateWebRequest(treatmentType, null, timeId))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("예약 날짜는 null이 될 수 없습니다.");
     }
@@ -42,21 +42,8 @@ class ReservationCreateRequestTest {
         String name = "프리";
 
         // When & Then
-        Assertions.assertThatThrownBy(() -> new ReservationCreateRequest(treatmentType, date, null, name))
+        Assertions.assertThatThrownBy(() -> new ReservationCreateWebRequest(treatmentType, date, null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("예약 시간은 null이 될 수 없습니다.");
-    }
-
-    @Test
-    void name은_null이_될_수_없다 () {
-        // Given
-        TreatmentType treatmentType = TreatmentType.EXTRACTION;
-        LocalDate date = LocalDate.now().plusDays(1);
-        Long timeId = 1L;
-
-        // When & Then
-        Assertions.assertThatThrownBy(() -> new ReservationCreateRequest(treatmentType, date, timeId, null))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("예약자는 null이 될 수 없습니다.");
     }
 }

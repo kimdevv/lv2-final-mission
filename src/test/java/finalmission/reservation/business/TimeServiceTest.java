@@ -1,7 +1,7 @@
 package finalmission.reservation.business;
 
 import finalmission.reservation.model.Time;
-import finalmission.reservation.presentation.dto.request.TimeCreateRequest;
+import finalmission.reservation.presentation.dto.request.TimeCreateWebRequest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ class TimeServiceTest {
     void 시간을_생성하여_저장한다() {
         // Given
         LocalTime startAt = LocalTime.now().plusMinutes(1);
-        TimeCreateRequest timeCreateRequest = new TimeCreateRequest(startAt);
+        TimeCreateWebRequest timeCreateWebRequest = new TimeCreateWebRequest(startAt);
 
         // When
-        Time newTime = timeService.createTime(timeCreateRequest);
+        Time newTime = timeService.createTime(timeCreateWebRequest);
 
         // Then
         SoftAssertions.assertSoftly(softAssertions -> {
@@ -40,10 +40,10 @@ class TimeServiceTest {
         // Given
         LocalTime startAt1 = LocalTime.now().plusMinutes(1);
         LocalTime startAt2 = LocalTime.now().plusMinutes(2);
-        TimeCreateRequest timeCreateRequest1 = new TimeCreateRequest(startAt1);
-        TimeCreateRequest timeCreateRequest2 = new TimeCreateRequest(startAt2);
-        Time newTime1 = timeService.createTime(timeCreateRequest1);
-        Time newTime2 = timeService.createTime(timeCreateRequest2);
+        TimeCreateWebRequest timeCreateWebRequest1 = new TimeCreateWebRequest(startAt1);
+        TimeCreateWebRequest timeCreateWebRequest2 = new TimeCreateWebRequest(startAt2);
+        Time newTime1 = timeService.createTime(timeCreateWebRequest1);
+        Time newTime2 = timeService.createTime(timeCreateWebRequest2);
 
         // When & Then
         assertThat(timeService.findAllTimes())

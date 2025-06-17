@@ -2,7 +2,7 @@ package finalmission.holiday.presentation;
 
 import finalmission.holiday.business.HolidayService;
 import finalmission.holiday.model.Holiday;
-import finalmission.holiday.presentation.dto.request.HolidayCreateRequest;
+import finalmission.holiday.presentation.dto.request.HolidayCreateWebRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ public class HolidayController {
     }
 
     @PostMapping
-    public ResponseEntity<Holiday> create(@RequestBody HolidayCreateRequest requestBody) {
+    public ResponseEntity<Holiday> create(@RequestBody HolidayCreateWebRequest requestBody) {
         Holiday holiday = holidayService.create(requestBody);
         return ResponseEntity.status(HttpStatus.CREATED).body(holiday);
     }

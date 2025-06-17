@@ -2,9 +2,9 @@ package finalmission.reservation.presentation.dto.request;
 
 import java.time.LocalTime;
 
-public record TimeCreateRequest(LocalTime startAt) {
+public record TimeCreateWebRequest(LocalTime startAt) {
 
-    public TimeCreateRequest {
+    public TimeCreateWebRequest {
         validateStartAt(startAt);
     }
 

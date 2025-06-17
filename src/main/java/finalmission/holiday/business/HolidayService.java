@@ -2,7 +2,7 @@ package finalmission.holiday.business;
 
 import finalmission.holiday.database.HolidayRepository;
 import finalmission.holiday.model.Holiday;
-import finalmission.holiday.presentation.dto.request.HolidayCreateRequest;
+import finalmission.holiday.presentation.dto.request.HolidayCreateWebRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,8 +18,8 @@ public class HolidayService {
         this.nationalHolidayService = nationalHolidayService;
     }
 
-    public Holiday create(HolidayCreateRequest holidayCreateRequest) {
-        return holidayRepository.save(new Holiday(holidayCreateRequest.date(), holidayCreateRequest.name()));
+    public Holiday create(HolidayCreateWebRequest holidayCreateWebRequest) {
+        return holidayRepository.save(new Holiday(holidayCreateWebRequest.date(), holidayCreateWebRequest.name()));
     }
 
     public void createNationalHolidaysOfThisYear() {

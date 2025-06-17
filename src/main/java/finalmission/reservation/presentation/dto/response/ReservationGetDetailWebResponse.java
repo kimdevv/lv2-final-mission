@@ -6,5 +6,5 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public record ReservationGetDetailResponse(Long id, String name, TreatmentType treatmentType, LocalDate date, LocalTime time, LocalDateTime createdAt) {
+public record ReservationGetDetailWebResponse(Long id, String name, TreatmentType treatmentType, LocalDate date, LocalTime time, LocalDateTime createdAt) {
 }

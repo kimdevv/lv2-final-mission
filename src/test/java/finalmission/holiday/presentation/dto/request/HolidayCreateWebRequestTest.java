@@ -7,14 +7,14 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class HolidayCreateRequestTest {
+class HolidayCreateWebRequestTest {
 
     @Test
     void 날짜는_null이_될_수_없다() {
         // Given
         // When
         // Then
-        assertThatThrownBy(() -> new HolidayCreateRequest(null, "프리"))
+        assertThatThrownBy(() -> new HolidayCreateWebRequest(null, "프리"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("날짜는 null이 될 수 없습니다.");
     }
@@ -25,13 +25,13 @@ class HolidayCreateRequestTest {
         // When
         // Then
         SoftAssertions.assertSoftly(softAssertions -> {
-            softAssertions.assertThatThrownBy(() -> new HolidayCreateRequest(LocalDate.now().plusDays(1), null))
+            softAssertions.assertThatThrownBy(() -> new HolidayCreateWebRequest(LocalDate.now().plusDays(1), null))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("이름은 빈 값이 될 수 없습니다.");
-            softAssertions.assertThatThrownBy(() -> new HolidayCreateRequest(LocalDate.now().plusDays(1), ""))
+            softAssertions.assertThatThrownBy(() -> new HolidayCreateWebRequest(LocalDate.now().plusDays(1), ""))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("이름은 빈 값이 될 수 없습니다.");
-            softAssertions.assertThatThrownBy(() -> new HolidayCreateRequest(LocalDate.now().plusDays(1), "    "))
+            softAssertions.assertThatThrownBy(() -> new HolidayCreateWebRequest(LocalDate.now().plusDays(1), "    "))
                     .isInstanceOf(IllegalArgumentException.class)
                     .hasMessage("이름은 빈 값이 될 수 없습니다.");
         });

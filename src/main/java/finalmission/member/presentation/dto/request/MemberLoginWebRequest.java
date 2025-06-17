@@ -1,8 +1,8 @@
 package finalmission.member.presentation.dto.request;
 
-public record MemberLoginRequest(String username, String password) {
+public record MemberLoginWebRequest(String username, String password) {
 
-    public MemberLoginRequest {
+    public MemberLoginWebRequest {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("아이디는 빈 값이 될 수 없습니다.");
         }
