@@ -3,6 +3,8 @@ package finalmission.holiday.presentation;
 import finalmission.holiday.business.HolidayService;
 import finalmission.holiday.model.Holiday;
 import finalmission.holiday.presentation.dto.request.HolidayCreateRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +21,9 @@ public class HolidayController {
     }
 
     @PostMapping
-    public Holiday create(@RequestBody HolidayCreateRequest requestBody) {
-        return holidayService.create(requestBody);
+    public ResponseEntity<Holiday> create(@RequestBody HolidayCreateRequest requestBody) {
+        Holiday holiday = holidayService.create(requestBody);
+        return ResponseEntity.status(HttpStatus.CREATED).body(holiday);
     }
 
     @PostMapping("/national")

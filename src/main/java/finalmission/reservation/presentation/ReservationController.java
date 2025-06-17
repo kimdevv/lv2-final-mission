@@ -7,6 +7,8 @@ import finalmission.reservation.presentation.dto.request.ReservationDeleteReques
 import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeRequest;
 import finalmission.reservation.presentation.dto.response.ReservationGetDetailResponse;
 import finalmission.reservation.presentation.dto.response.ReservationGetResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,9 +33,9 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ReservationGetDetailResponse create(@RequestBody ReservationCreateRequest requestBody) {
+    public ResponseEntity<ReservationGetDetailResponse> create(@RequestBody ReservationCreateRequest requestBody) {
         Reservation reservation = reservationService.createReservation(requestBody);
-        return new ReservationGetDetailResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ReservationGetDetailResponse(reservation.getId(), reservation.getName(), reservation.getTreatmentType(), reservation.getDate(), reservation.getTime().getStartAt(), reservation.getCreatedAt()));
     }
 
     @GetMapping
@@ -73,7 +75,8 @@ public class ReservationController {
     }
 
    @DeleteMapping
-    public void delete(@RequestBody ReservationDeleteRequest requestBody) {
+    public ResponseEntity<Void> delete(@RequestBody ReservationDeleteRequest requestBody) {
        reservationService.deleteById(requestBody);
+       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
    }
 }
