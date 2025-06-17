@@ -1,6 +1,6 @@
 package finalmission.member.business;
 
-import finalmission.general.util.JwtProvider;
+import finalmission.general.auth.util.JwtProvider;
 import finalmission.member.model.Member;
 import finalmission.member.presentation.dto.request.MemberCreateRequest;
 import finalmission.member.presentation.dto.request.MemberLoginRequest;

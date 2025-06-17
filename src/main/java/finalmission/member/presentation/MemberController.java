@@ -1,12 +1,11 @@
 package finalmission.member.presentation;
 
-import finalmission.general.util.CookieManager;
+import finalmission.general.auth.util.CookieManager;
 import finalmission.member.business.MemberService;
 import finalmission.member.model.Member;
 import finalmission.member.presentation.dto.request.MemberCreateRequest;
 import finalmission.member.presentation.dto.request.MemberLoginRequest;
 import finalmission.member.presentation.dto.response.MemberGetResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

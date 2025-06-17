@@ -1,4 +1,4 @@
-package finalmission.general.util;
+package finalmission.general.auth.util;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

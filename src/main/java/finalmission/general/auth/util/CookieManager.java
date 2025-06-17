@@ -1,4 +1,4 @@
-package finalmission.general.util;
+package finalmission.general.auth.util;
 
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;

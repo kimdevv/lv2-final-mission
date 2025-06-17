@@ -1,11 +1,10 @@
 package finalmission.member.business;
 
-import finalmission.general.util.JwtProvider;
+import finalmission.general.auth.util.JwtProvider;
 import finalmission.member.database.MemberRepository;
 import finalmission.member.model.Member;
 import finalmission.member.presentation.dto.request.MemberCreateRequest;
 import finalmission.member.presentation.dto.request.MemberLoginRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
