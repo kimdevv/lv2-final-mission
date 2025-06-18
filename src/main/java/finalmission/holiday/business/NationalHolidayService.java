@@ -40,7 +40,6 @@ public class NationalHolidayService {
                     .path("body")
                     .path("items")
                     .path("item");
-            System.out.println(holidays.asText());
             if (holidays.isArray()) {
                 for (JsonNode holiday : holidays) {
                     String name = holiday.path("dateName").asText();
