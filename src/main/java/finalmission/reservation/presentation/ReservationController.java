@@ -58,7 +58,7 @@ public class ReservationController {
                 .toList();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/member/{name}")
     public List<ReservationGetWebResponse> findMemberReservations(@PathVariable String name) {
         List<Reservation> reservations = reservationService.findMemberReservations(name);
         return reservations.stream()

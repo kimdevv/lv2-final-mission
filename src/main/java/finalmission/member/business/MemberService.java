@@ -33,6 +33,6 @@ public class MemberService {
     public String login(MemberLoginWebRequest memberLoginWebRequest) {
         Member member = memberRepository.findByUsernameAndPassword(memberLoginWebRequest.username(), memberLoginWebRequest.password())
                 .orElseThrow(() -> new IllegalArgumentException("아이디 혹은 비밀번호를 잘못 입력하셨습니다."));
-        return jwtProvider.generateToken(member.getName());
+        return jwtProvider.generateToken(member.getUsername());
     }
 }

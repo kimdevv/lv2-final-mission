@@ -8,6 +8,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
 class MemberServiceTest {
 
@@ -58,12 +60,12 @@ class MemberServiceTest {
     @Test
     void 로그인_성공_시_JWT를_반환한다() {
         // Given
-        String name = "프리";
-        MemberCreateWebRequest memberCreateWebRequest = new MemberCreateWebRequest("username", "password", name);
+        String username = "username";
+        MemberCreateWebRequest memberCreateWebRequest = new MemberCreateWebRequest(username, "password", "프리");
         Member member = memberService.createUser(memberCreateWebRequest);
         MemberLoginWebRequest memberLoginWebRequest = new MemberLoginWebRequest(member.getUsername(), member.getPassword());
         String expected = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiLtlITrpqwiLCJleHAiOjE3NTAxNTM3NDV9.bDb6JgQCnJ1t6gfNe1d8iWzwQZ-ukkIL88zrXdc_mvo";
-        when(jwtProvider.generateToken(name)).thenReturn(expected);
+        when(jwtProvider.generateToken(username)).thenReturn(expected);
 
         // When
         String token = memberService.login(memberLoginWebRequest);

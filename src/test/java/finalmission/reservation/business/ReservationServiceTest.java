@@ -12,12 +12,11 @@ import finalmission.reservation.business.dto.request.ReservationUpdateTreatmentT
 import finalmission.reservation.database.TimeRepository;
 import finalmission.reservation.model.Reservation;
 import finalmission.reservation.model.Time;
-import finalmission.reservation.presentation.dto.request.ReservationCreateWebRequest;
-import finalmission.reservation.presentation.dto.request.ReservationUpdateTreatmentTypeWebRequest;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -27,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 @Transactional
 class ReservationServiceTest {
 

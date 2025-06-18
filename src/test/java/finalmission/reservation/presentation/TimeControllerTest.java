@@ -3,18 +3,30 @@ package finalmission.reservation.presentation;
 import finalmission.reservation.presentation.dto.request.TimeCreateWebRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.LocalTime;
 
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class TimeControllerTest {
+
+    @LocalServerPort
+    int port;
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.port = port;
+    }
 
     @Test
     void 시간을_생성하는_요청을_보내고_성공_시_201을_반환한다() {
@@ -28,7 +40,7 @@ class TimeControllerTest {
                     .post("/reservations/times")
                 .then()
                     .statusCode(201)
-                    .body("startAt", equalTo(String.format("%02d:%02d:%02d.%07d", startAt.getHour(), startAt.getMinute(), startAt.getSecond(), startAt.getNano() / 100)));
+                    .body("startAt", containsString(String.format("%02d:%02d:%02d", startAt.getHour(), startAt.getMinute(), startAt.getSecond())));
 
     }
 

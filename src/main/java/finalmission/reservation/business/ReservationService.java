@@ -40,7 +40,7 @@ public class ReservationService {
         Time time = timeRepository.findById(timeId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 시간 id입니다."));
         Member member = memberRepository.findByUsername(reservationCreateRequest.username())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버 id입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 멤버의 아이디입니다."));
         return reservationRepository.save(new Reservation(reservationCreateRequest.treatmentType(), date, time, member));
     }
 
