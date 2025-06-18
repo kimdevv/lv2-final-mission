@@ -17,14 +17,6 @@ import static org.hamcrest.Matchers.equalTo;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class HolidayControllerTest {
 
-    @LocalServerPort
-    int port;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.port = port;
-    }
-
     @Test
     void 공휴일_생성_요청을_보내고_성공_시_201을_반환한다() {
         LocalDate futureDate = LocalDate.now().plusDays(1);
