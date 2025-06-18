@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -35,7 +35,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody MemberLoginWebRequest requestBody, HttpServletResponse response) {
+    public ResponseEntity<Void> login(@RequestBody MemberLoginWebRequest requestBody) {
         String accessToken = memberService.login(requestBody);
         ResponseCookie cookie = cookieManager.generateJwtCookie(accessToken);
         return ResponseEntity.ok()

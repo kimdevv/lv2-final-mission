@@ -10,6 +10,7 @@ public class CookieManager {
 
     public ResponseCookie generateJwtCookie(String token) {
         return ResponseCookie.from("token", token)
+                .httpOnly(true)
                 .maxAge(TOKEN_COOKIE_DURATION)
                 .build();
     }
